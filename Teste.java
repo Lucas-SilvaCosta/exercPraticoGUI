@@ -14,18 +14,18 @@ public class Teste{
 		
 		
 		GridBagFrame gridBagFrame = new GridBagFrame(); 
-        gridBagFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        gridBagFrame.setSize( 300, 150 ); // set frame size
-        gridBagFrame.setVisible( true ); // display frame
-        
-        Calculadora c = new Calculadora(); 
-        c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        c.setSize( 400, 200 ); // set frame size
-        c.setVisible( true ); // display frame
-        */
-        ColorSelect colorFrame = new ColorSelect();
-        colorFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-        colorFrame.setSize(500, 500);
-        colorFrame.setVisible(true);
+                gridBagFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                gridBagFrame.setSize( 300, 150 ); // set frame size
+                gridBagFrame.setVisible( true ); // display frame
+                
+                Calculadora c = new Calculadora(); 
+                c.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                c.setSize( 400, 200 ); // set frame size
+                c.setVisible( true ); // display frame
+                */
+                ColorSelect colorFrame = new ColorSelect();
+                colorFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
+                colorFrame.setSize(500, 500);
+                colorFrame.setVisible(true);
 	}
 }

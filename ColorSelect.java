@@ -29,7 +29,7 @@ public class ColorSelect extends JFrame{
 	private JButton diminui;
 	private JButton apaga;
 
-	private Color color = Color.LIGHT_GRAY;
+	private Color color =  new Color(238, 238, 238);
 
 	private int pointCount = 0; // nÃºmero de contagem de pontos
 	private Point[] points = new Point[10000]; // array de 10000 referencias ons.awt.Point
@@ -39,6 +39,10 @@ public class ColorSelect extends JFrame{
 
 		borderlayout = new BorderLayout(5, 5);
 		setLayout(borderlayout);
+
+		PaintPanel center = new PaintPanel();
+		center.setBackground(Color.WHITE);
+		add(center, BorderLayout.CENTER);
 		
 		JPanel west = new JPanel();
 		Box westBox = Box.createVerticalBox();
@@ -48,7 +52,8 @@ public class ColorSelect extends JFrame{
 				@Override 
 				public void actionPerformed(ActionEvent arg0) {
 					color = JColorChooser.showDialog(ColorSelect.this, "Escolhe uma cor", color); 
-					if (color == null){color = Color.LIGHT_GRAY;}
+					if (color == null){color =  new Color(238, 238, 238);}
+					center.editaCor(color);
 				}
 			}
 		);
@@ -57,7 +62,7 @@ public class ColorSelect extends JFrame{
 			new ActionListener() {
 				@Override 
 				public void actionPerformed(ActionEvent arg0) {
-					getContentPane().setBackground(Color.LIGHT_GRAY);
+					getContentPane().setBackground( new Color(238, 238, 238));
 				}
 			}
 		);
@@ -78,36 +83,32 @@ public class ColorSelect extends JFrame{
 		west.add(westBox);
 		add(west, BorderLayout.WEST);
 
-		//PaintPanel center = new PaintPanel();
-		JPanel center = new JPanel();
-		/*
-		center.addMouseMotionListener(
-				new MouseMotionAdapter() { // classe interna anÃ´nima
-					public void mouseDragged(MouseEvent event) { // armazena coordenadas de arrastar e repinta
-						if (pointCount < points.length) {
-							points[pointCount] = event.getPoint(); // localiza o ponto
-							pointCount++; // incrementa o nÃºmero de pontos em array
-							repaint(); // repinta JFrame
-						}
-					}
-
-				}// fim classe interna
-		);// fim chamada addMouseMotionListener
-		*/
-		Mhandler mHandler = new Mhandler();
-		center.addMouseMotionListener(mHandler);
-		center.setBackground(Color.WHITE);
-		add(center, BorderLayout.CENTER);
-
 		JPanel north = new JPanel();
 		aumenta = new JButton("Aumenta");
+		aumenta.addActionListener(
+			new ActionListener() {
+				@Override 
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println("ouviu");
+					center.aumentaTamanho();
+				}
+			}
+		);
 		diminui = new JButton("Diminui");
+		diminui.addActionListener(
+			new ActionListener() {
+				@Override 
+				public void actionPerformed(ActionEvent arg0) {
+					center.diminuiTamanho();
+				}
+			}
+		);
 		apaga = new JButton("Apaga");
 		apaga.addActionListener(
 			new ActionListener() {
 				@Override 
 				public void actionPerformed(ActionEvent arg0) {
-					center.setBackground(Color.WHITE);
+					center.apaga();
 				}
 			}
 		);
@@ -115,34 +116,6 @@ public class ColorSelect extends JFrame{
 		north.add(diminui);
 		north.add(apaga);
 		add(north, BorderLayout.NORTH);
-	}
-
-	private class Mhandler extends JPanel implements MouseMotionListener{
-		@Override
-		public void mouseDragged(MouseEvent event) { // armazena coordenadas de arrastar e repinta
-			if (pointCount < points.length) {
-				System.out.println("ouviu");
-				points[pointCount] = event.getPoint(); // localiza o ponto
-				pointCount++; // incrementa o nÃºmero de pontos em array
-				repaint(); // repinta JFrame
-			}
-		}
-		@Override // trata evento quando mouse eh movido
-
-		public void mouseMoved(MouseEvent event) {
-
-			// TODO Auto-generated method stub
-
-		}
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g); // limpa area de desenho
-			System.out.println("Chamou");
-			// desenha todos os pontos no array
-			for (int i = 0; i < pointCount; i++) {
-				g.setColor(color);
-				g.fillOval(points[i].x, points[i].y, 4, 4);
-			}
-		}
 	}
 
 }
