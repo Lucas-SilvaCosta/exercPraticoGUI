@@ -46,6 +46,27 @@ public class Calculadora extends JFrame{
 	private JButton abreP;
 	private JButton fechaP;
 
+	private double n1;
+	private double n2;
+	private double nP;
+	private int op;
+	private int opP;
+	/* 
+	*  soma  = 1
+	*  sub   = 2
+	*  mult  = 3
+	*  div   = 4
+	*  fat   = 5
+	*  exp   = 6
+	*  raiz2 = 7
+	*  raiz3 = 8
+	*  porc  = 9
+	*  elev2 = 10
+	*  elev3 = 11
+	*  elevY = 12
+	*
+	*/
+
 	public Calculadora(){
 		super("Calculadora");
 
@@ -54,7 +75,7 @@ public class Calculadora extends JFrame{
 		constraints = new GridBagConstraints();
 
 		tPrincipal = new JTextArea("", 2, 7);
-		tSecundario = new JTextField();
+		tSecundario = new JTextField("");
       	constraints.fill = GridBagConstraints.BOTH;
       	constraints.weightx = 0;
       	constraints.weighty = 0;
@@ -84,7 +105,7 @@ public class Calculadora extends JFrame{
 		JButton exp = new JButton("e^x");
 		JButton raiz2 = new JButton("r2");
 		JButton raiz3 = new JButton("r3");
-		JButton porc = new JButton("%");
+		JButton porc = new JButton("porc");
 		JButton elev2 = new JButton("x²");
 		JButton elev3 = new JButton("x³");
 		JButton elevY = new JButton("x^y");
@@ -133,6 +154,7 @@ public class Calculadora extends JFrame{
 		sete.addActionListener(bHandler);
 		oito.addActionListener(bHandler);
 		nove.addActionListener(bHandler);
+		igual.addActionListener(bHandler);
 		ponto.addActionListener(bHandler);
 		abreP.addActionListener(bHandler);
 		fechaP.addActionListener(bHandler);
@@ -141,6 +163,16 @@ public class Calculadora extends JFrame{
 		mult.addActionListener(bHandler);
 		sub.addActionListener(bHandler);
 		soma.addActionListener(bHandler);
+		fat.addActionListener(bHandler);
+		exp.addActionListener(bHandler);
+		raiz2.addActionListener(bHandler);
+		raiz3.addActionListener(bHandler);
+		porc.addActionListener(bHandler);
+		elev2.addActionListener(bHandler);
+		elev3.addActionListener(bHandler);
+		elevY.addActionListener(bHandler);
+		pi.addActionListener(bHandler);
+	
 
 	}
 
@@ -157,6 +189,8 @@ public class Calculadora extends JFrame{
     private class Bhandler implements ActionListener{
     	@Override
     	public void actionPerformed(ActionEvent e){
+    		Calcula c = new Calcula();
+    		//System.out.println(e.getActionCommand());
     		switch(String.format(e.getActionCommand())){
     			case "0":
     				tPrincipal.setText(tPrincipal.getText()+"0");
@@ -192,32 +226,131 @@ public class Calculadora extends JFrame{
     				tPrincipal.setText(tPrincipal.getText()+".");
     				break;
     			case "(":
-    				tPrincipal.setText(tPrincipal.getText()+"(");
+    				if(op!=0){
+    					opP = op;
+    					op = 0;
+    					nP = n1;
+    					n1 = 0;
+    				}
+    				tSecundario.setText(tSecundario.getText()+"(");
     				break;
     			case ")":
-    				tPrincipal.setText(tPrincipal.getText()+")");
+    				if(op!=0){
+    					double res = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					if(opP!=0){
+	    					double resP = c.calcAux(res, nP, opP);
+	    					tPrincipal.setText(Double.toString(resP));
+    					}
+    				}else{
+    					tPrincipal.setText(Double.toString(n1));
+    				}
+					tSecundario.setText("");
+    				op=0;
     				break;
     			case "C":
+    				n1 = 0;
     				tPrincipal.setText("");
     				tSecundario.setText("");
     				break;
     			case "/":
-    				tSecundario.setText(tPrincipal.getText()+"/");
+	    			if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+"/");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+"/");
+    				}
     				tPrincipal.setText("");
+    				op = 4;
     				break;
     			case "*":
-    				tSecundario.setText(tPrincipal.getText()+"*");
+    				if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+"*");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+"*");
+    				}
     				tPrincipal.setText("");
+    				op = 3;
     				break;
     			case "-":
-    				tSecundario.setText(tPrincipal.getText()+"-");
+    				if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+"-");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+"-");
+    				}
     				tPrincipal.setText("");
+    				op = 2;
     				break;
     			case "+":
-    				tSecundario.setText(tPrincipal.getText()+"+");
+    				if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+"+");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+"+");
+    				}
     				tPrincipal.setText("");
+    				op = 1;
     				break;
-    		}
+    			case "x!":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 5)));
+    				break;
+    			case "e^x":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 6)));
+    				break;
+    			case "r2":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 7)));
+    				break;
+    			case "r3":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 8)));
+    				break;
+    			case "porc":
+    				if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+" porcento de");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+" porcento de");
+    				}
+    				tPrincipal.setText("");
+    				op = 9;
+    				break;
+    			case "x²":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 10)));
+    				break;
+    			case "x³":
+    				tPrincipal.setText(Double.toString(c.calcAux(Double.parseDouble(tPrincipal.getText()), 0, 11)));
+    				break;
+    			case "x^y":
+    				if(op!=0){
+    					n1 = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tSecundario.setText(Double.toString(n1)+"^");
+    				}else{
+    					n1 = Double.parseDouble(tPrincipal.getText());
+    					tSecundario.setText(tSecundario.getText()+n1+"^");
+    				}
+    				tPrincipal.setText("");
+    				op = 12;
+    				break;
+    			case "π":
+    				tPrincipal.setText("3.16");
+    				System.out.println("Entrou");
+    				break;
+    			case "=":
+    				if(op!=0){
+    					double res = c.calcAux(n1, Double.parseDouble(tPrincipal.getText()), op);
+    					tPrincipal.setText(Double.toString(res));
+    				}else{
+    					tPrincipal.setText(Double.toString(n1));
+    				}
+					tSecundario.setText("");
+    				op=0;
+    				break;
+			}
 
     		/*
     		if(String.format(e.getActionCommand()).equals("0")){
