@@ -91,6 +91,10 @@ public class Printer extends JFrame{
 		b2 = new JButton("Cancel");
 		b3 = new JButton("Setup");
 		b4 = new JButton("Help");
+		b1.setMaximumSize(new Dimension(85, 25));
+		b2.setMaximumSize(new Dimension(85, 25));
+		b3.setMaximumSize(new Dimension(85, 25));
+		b4.setMaximumSize(new Dimension(85, 25));
 		bE1.add(b1);
 		bE1.add(Box.createVerticalStrut(10));
 		bE1.add(b2);
@@ -102,7 +106,7 @@ public class Printer extends JFrame{
 		//add(pE, BorderLayout.EAST);
 		bMaior.add(pE);
 		add(bMaior);
-		System.out.println(b2.getMinimumSize());
+		//System.out.println(b2.getMinimumSize());
 		System.out.println(b1.getMinimumSize());
 		System.out.println(b1.getPreferredSize());
 		System.out.println(b1.getSize());

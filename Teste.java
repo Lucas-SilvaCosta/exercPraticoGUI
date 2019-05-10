@@ -18,7 +18,7 @@ public class Teste{
 
                 Printer p = new Printer();
                 p.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE);
-                p.setSize(500, 200);
+                p.setSize(500, 150);
                 p.setVisible(true);
 
 	}
